@@ -13,3 +13,6 @@ jobs:
       - name: Test
         run: |
           echo "NESTED aaaaaaa"
+      - name: View files
+        run: |
+          ls -la .
