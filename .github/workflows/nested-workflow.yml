@@ -1,0 +1,15 @@
+name: Nested Reusable workflow
+
+on:
+  workflow_call:
+
+env:
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: |
+          echo NESTED

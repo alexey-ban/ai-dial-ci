@@ -1,0 +1,15 @@
+name: Reusable workflow
+
+on:
+  workflow_call:
+
+jobs:
+  echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: |
+          echo "reusable workflow"
+
+  call-another-reusable:
+    uses: ./.github/workflows/nested-workflow.yml
