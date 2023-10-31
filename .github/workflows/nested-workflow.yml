@@ -19,11 +19,11 @@ jobs:
           context: .
           push: false
           tags: |
-            ${{ vars.IMAGE_NAME }}:test
+            dockername:test
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@fbd16365eb88e12433951383f5e99bd901fc618f #0.12.0
         with:
-          image-ref: '${{ vars.IMAGE_NAME }}:test'
+          image-ref: 'dockername:test'
           format: 'table'
           exit-code: '1'
           vuln-type: 'os,library'
