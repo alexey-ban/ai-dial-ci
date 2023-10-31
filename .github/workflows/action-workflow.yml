@@ -1,0 +1,16 @@
+name: Action workflow
+
+on:
+  workflow_call:
+
+jobs:
+  action-echo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: just-echo
+        run: |
+          echo "action "
+      - name: call-action
+        uses: ./.github/action/test
+
+    
