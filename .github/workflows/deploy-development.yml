@@ -19,9 +19,6 @@ on:
       DEPLOY_ACCESS_TOKEN:
         required: true
 
-env:
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   Build:
     runs-on: ubuntu-20.04
