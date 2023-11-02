@@ -3,11 +3,11 @@ name: Deploy App to dev env
 on:
   workflow_call:
     inputs:
-      DEPLOY_PROJECT_ID:
+      gitlab-project-id:
         required: true
         description: 'The ID or path of the project owned by the authenticated user.'
         type: string
-      DEPLOY_REF:
+      gitlab-project-ref:
         default: 'master'
         description: 'The branch or tag to run the pipeline on.'
         type: string
@@ -30,6 +30,6 @@ jobs:
           host: ${{ secrets.DEPLOY_HOST }}
           trigger_token: ${{ secrets.DEPLOY_TRIGGER_TOKEN }}
           access_token: ${{ secrets.DEPLOY_ACCESS_TOKEN }}
-          id: ${{ secrets.DEPLOY_PROJECT_ID }}
-          ref: ${{ secrets.DEPLOY_REF }}
+          id: ${{ inputs.gitlab-project-id }}
+          ref: ${{ inputs.gitlab-project-ref }}
           variables: '{}'
