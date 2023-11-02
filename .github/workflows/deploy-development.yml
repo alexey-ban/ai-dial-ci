@@ -20,9 +20,11 @@ on:
         required: true
 
 jobs:
-  Build:
+  trigger-pipeline:
     runs-on: ubuntu-20.04
     steps:
+      - name: Test owner
+        uses: ./.github/workflows/check-owner.yml
       - name: Deploy environment
         id: deploy
         uses: digital-blueprint/gitlab-pipeline-trigger-action@990eaca56dc9b9439da90dd81ab9311adce0dcce # v1.0.5
