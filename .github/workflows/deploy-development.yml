@@ -18,8 +18,6 @@ on:
         required: true
       DEPLOY_ACCESS_TOKEN:
         required: true
-      DEPLOY_PROJECT_ID:
-        required: true
 
 env:
   IMAGE_NAME: ${{ github.repository }}
