@@ -20,11 +20,11 @@ on:
         required: true
 
 jobs:
-  test-owner:
-    uses: ./.github/workflows/check-owner.yml
-
   trigger-pipeline:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
+    concurrency: development
+    environment:
+      name: development
     steps:
       - name: Deploy environment
         id: deploy
