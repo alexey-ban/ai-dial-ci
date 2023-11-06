@@ -1,7 +1,7 @@
 name: 'Calculate version'
 
 on:
-  workflow_dispatch:
+  workflow_call:
 
     outputs:
       current_version:
