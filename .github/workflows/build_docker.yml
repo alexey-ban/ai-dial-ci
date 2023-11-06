@@ -65,7 +65,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Login to GitHub Container Registry
-        if: ${{ inputs.push == 'true' }} # workaround for composite jobs not being able to pass boolean inputs
         uses: docker/login-action@465a07811f14bebb1938fbed4728c6a1ff8901fc #v2.2.0
         with:
           registry: ghcr.io
