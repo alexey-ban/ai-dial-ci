@@ -27,6 +27,10 @@ jobs:
       non_semver_next_version: ${{ steps.semantic.outputs.non_semver_next_version }}
       is_latest: ${{ steps.semantic.outputs.is_latest }}
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac #v4.0.0
+        with:
+          fetch-depth: 0
       - name: Calculate-version
         id: semantic
         shell: bash
