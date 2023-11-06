@@ -22,7 +22,7 @@ jobs:
     uses: ./.github/workflows/build_docker.yml
     with:
       ghcr_username: ${{ github.actor }}
-      ghcr_password: ${{ secrets.ACTIONS_BOT_TOKEN }}
+      # ghcr_password: ${{ secrets.ACTIONS_BOT_TOKEN }}
       image_name: ghcr.io/${{ github.repository }}
       image_tag: ${{ needs.calculate_version.outputs.next_version }}
       push: true
