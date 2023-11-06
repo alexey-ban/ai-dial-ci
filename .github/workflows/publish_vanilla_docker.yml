@@ -61,7 +61,7 @@ jobs:
             ${{ github.ref == 'refs/heads/development' && format('{0}/{1}:{2}', 'ghcr.io', env.IMAGE_NAME, 'development') || ''}}
             ${{ startsWith(github.ref, 'refs/heads/release-') && needs.calculate_version.outputs.is_latest == 'true' && format('{0}:{1}', env.IMAGE_NAME, 'latest') || ''}}
             ${{ startsWith(github.ref, 'refs/heads/release-') && needs.calculate_version.outputs.is_latest == 'true' && format('{0}/{1}:{2}', 'ghcr.io', env.IMAGE_NAME, 'latest') || ''}}
-      - uses: alexey-ban/ai-dial-ci/actions/publish_tag_release@main
-        with:
-          tag_version: ${{ needs.calculate_version.outputs.next_version }}
-          changelog_file: "/tmp/my_changelog" # comes from generate_release_notes step; TODO: beautify
+      # - uses: alexey-ban/ai-dial-ci/actions/publish_tag_release@main
+      #   with:
+      #     tag_version: ${{ needs.calculate_version.outputs.next_version }}
+      #     changelog_file: "/tmp/my_changelog" # comes from generate_release_notes step; TODO: beautify
