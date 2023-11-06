@@ -32,7 +32,7 @@ jobs:
   release:
     needs:
       - calculate_version
-      - ort
+      # - ort
     runs-on: ubuntu-latest
 #    environment:
 #      name: release
