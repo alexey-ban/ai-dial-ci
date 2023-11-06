@@ -2,6 +2,10 @@ name: Release version
 
 on:
   workflow_call:
+    secrets:
+      ACTIONS_BOT_TOKEN:
+        required: true
+
 
 env:
   IMAGE_NAME: ${{ github.repository }}
