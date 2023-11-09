@@ -11,14 +11,6 @@ on:
         default: "master"
         description: "The branch or tag to run the pipeline on."
         type: string
-      github-app:
-        default: "${{ github.event.repository.name }}"
-        description: "Prefix of e2e env name."
-        type: string
-      github-pr:
-        default: "${{ github.sha }}"
-        description: "Postfix of e2e env name. Used only 7 first symbol"
-        type: string
     secrets:
       DEPLOY_HOST:
         required: true
@@ -33,18 +25,16 @@ jobs:
     concurrency: e2e-test
     environment:
       name: e2e-test
-    env:
-      INPUT_GITHUB_PR: ${{ inputs.github-pr }}
     steps:
       - id: identify
         run: |
           # use bash variable expression to get the substring
-          echo "GITHUB_PR_SHORT=${INPUT_GITHUB_PR:0:7}" >>$GITHUB_ENV
+          echo "GITHUB_SHA_SHORT=${GITHUB_SHA:0:7}" >>$GITHUB_ENV
 
       - name: Just echo
         run: |
-          echo "debug env ${INPUT_GITHUB_PR}"
-          echo "debug env2 ${GITHUB_PR_SHORT}"
+          echo "debug env ${GITHUB_SHA}"
+          echo "debug env2 ${GITHUB_SHA_SHORT}"
 
       - name: Deploy environment
         id: deploy
@@ -57,6 +47,6 @@ jobs:
           ref: ${{ inputs.gitlab-project-ref }}
           variables: >
             {
-              "GITHUB_APP":"${{ inputs.github-app }}",
-              "GITHUB_PR": "${{ env.GITHUB_PR_SHORT }}"
+              "GITHUB_APP":"${{ github.event.repository.name }}",
+              "GITHUB_PR": "${{ env.GITHUB_SHA_SHORT }}"
             }
