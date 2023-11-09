@@ -13,7 +13,7 @@ jobs:
   calculate_version:
     uses: ./.github/workflows/semantic_versioning.yml
 
-  release:
+  publish-docker:
     needs:
       - calculate_version
     permissions:
@@ -22,7 +22,6 @@ jobs:
     uses: ./.github/workflows/build_docker.yml
     with:
       ghcr_username: ${{ github.actor }}
-      # ghcr_password: ${{ secrets.ACTIONS_BOT_TOKEN }}
       image_name: ghcr.io/${{ github.repository }}
       image_tag: ${{ needs.calculate_version.outputs.next_version }}
       push: true
@@ -32,3 +31,13 @@ jobs:
         ${{ startsWith(github.ref, 'refs/heads/release-') && needs.calculate_version.outputs.is_latest == 'true' && format('{0}/{1}:{2}', 'ghcr.io', github.repository, 'latest') || ''}}
     secrets:
       GHCR_TOKEN: ${{ secrets.ACTIONS_BOT_TOKEN }}
+    
+  # generate_release_notes:
+  #   uses: ./.github/workflows/generate_release_notes.yml
+  #   if: github.ref =~ 'refs/heads/release-'
+
+
+  # publish_tag_release:
+  #   uses: ./.github/workflows/publish_tag_release.yml
+  #   if: github.ref =~ 'refs/heads/release-'
+

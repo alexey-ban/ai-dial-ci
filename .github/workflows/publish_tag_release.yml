@@ -1,0 +1,58 @@
+name: 'Publish git tag and release'
+on:
+  workflow_call:
+
+
+    inputs:
+      extra_commit_command:
+        description: 'Extra command to commit changes, e.g. `git add version.txt ; git commit -m "[skip ci] Update version" || true`'
+        type: string
+        required: false
+      tag_version:
+        description: 'Tag version'
+        type: string
+        required: true
+      changelog_file:
+        description: 'Changelog file'
+        type: string
+        required: true
+      artifacts:
+        description: 'Artifacts to upload'
+        type: string
+        required: false
+        default: ''
+
+jobs:
+  publish-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Commit and push changes
+        shell: bash
+        run: |
+          set -x
+          git config --global user.name "ai-dial-actions"
+          git config --global user.email "149404362+ai-dial-actions@users.noreply.github.com"
+  
+          ${{ inputs.extra_commit_command }}
+  
+          CURRENT_BRANCH=$(git symbolic-ref -q HEAD)
+          CURRENT_BRANCH=${CURRENT_BRANCH##refs/heads/}
+          CURRENT_BRANCH=${CURRENT_BRANCH:-HEAD}
+          if [[ "$CURRENT_BRANCH" =~ "release-" ]]; then
+            git tag -a "${{ inputs.tag_version }}" -m "$(cat ${{ inputs.changelog_file }})"
+          fi
+  
+          git push
+          git push --tags
+  
+      - uses: ncipollo/release-action@6c75be85e571768fa31b40abf38de58ba0397db5 #v1.13.0
+        if: github.ref != 'refs/heads/development'
+        with:
+          artifacts: ${{ inputs.artifacts }}
+          bodyFile: ${{ inputs.changelog_file }}
+          allowUpdates: true
+          updateOnlyUnreleased: true
+          makeLatest: true
+          prerelease: false
+          tag: ${{ inputs.tag_version }}
+  
