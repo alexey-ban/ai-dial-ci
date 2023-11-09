@@ -15,7 +15,7 @@ on:
         default: "${{ github.event.repository.name }}"
         description: "Prefix of e2e env name."
         type: string
-      github-pr:
+      githubpr:
         default: "${{ github.sha }}"
         description: "Postfix of e2e env name. Used only 7 first symbol"
         type: string
@@ -46,5 +46,5 @@ jobs:
           variables: >
             {
               "GITHUB_APP":"${{ inputs.github-app }}",
-              "GITHUB_PR":"${ INPUT_GITHUB-PR:0:7 }"
+              "GITHUB_PR":"${ INPUT_GITHUBPR }"
             }
