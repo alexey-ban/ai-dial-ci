@@ -39,12 +39,12 @@ jobs:
       - id: identify
         run: |
           # use bash variable expression to get the substring
-          echo "INPUT_GITHUB_PR_SHORT=${INPUT_GITHUB_PR:0:7}" >>$GITHUB_ENV
+          echo "GITHUB_PR_SHORT=${INPUT_GITHUB_PR:0:7}" >>$GITHUB_ENV
 
       - name: Just echo
         run: |
           echo "debug env ${INPUT_GITHUB_PR}"
-          echo "debug env2 ${INPUT_GITHUB_PR_SHORT}"
+          echo "debug env2 ${GITHUB_PR_SHORT}"
 
       - name: Deploy environment
         id: deploy
@@ -58,5 +58,5 @@ jobs:
           variables: >
             {
               "GITHUB_APP":"${{ inputs.github-app }}",
-              "GITHUB_PR": "${INPUT_GITHUB_PR_SHORT}"
+              "GITHUB_PR": "${{ env.GITHUB_PR_SHORT }}"
             }
