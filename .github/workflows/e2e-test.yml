@@ -34,14 +34,14 @@ jobs:
     environment:
       name: e2e-test
     env:
-      INPUT_GITHUB_PR: ${{ inputs.github-pr }}
+      INPUT_GITHUB_PR_1: ${{ inputs.github-pr }}
     steps:
       - name: Just echo
         run: |
-          echo "debug env ${INPUT_GITHUB_PR}"
-          echo "debug env2 ${INPUT_GITHUB_PR:0:7}"
-          echo "input PR ${INPUT_GITHUB-PR}"
-          echo "input PR2 ${INPUT_GITHUB-PR:0:7}"
+          echo "debug env ${INPUT_GITHUB_PR_1}"
+          echo "debug env2 ${INPUT_GITHUB_PR_1:0:7}"
+          echo "input PR ${INPUT_GITHUB_PR}"
+          echo "input PR2 ${INPUT_GITHUB_PR:0:7}"
 
       - name: Deploy environment
         id: deploy
@@ -55,5 +55,5 @@ jobs:
           variables: >
             {
               "GITHUB_APP":"${{ inputs.github-app }}",
-              "GITHUB_PR": ${ INPUT_GITHUB_PR }
+              "GITHUB_PR": ${INPUT_GITHUB_PR_1:0:7}
             }
