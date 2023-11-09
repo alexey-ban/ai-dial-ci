@@ -38,10 +38,10 @@ jobs:
     steps:
       - name: Just echo
         run: |
-          echo ${ INPUT_GITHUB_PR }
-          echo ${ INPUT_GITHUB_PR:0:7 }
-          echo "input PR ${ INPUT_GITHUB-PR }"
-          echo "input PR2 ${ INPUT_GITHUB-PR:0:7 }"
+          echo "debug env ${INPUT_GITHUB_PR}"
+          echo "debug env2 ${INPUT_GITHUB_PR:0:7}"
+          echo "input PR ${INPUT_GITHUB-PR}"
+          echo "input PR2 ${INPUT_GITHUB-PR:0:7}"
 
       - name: Deploy environment
         id: deploy
