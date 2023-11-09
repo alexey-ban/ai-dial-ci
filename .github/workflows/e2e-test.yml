@@ -13,11 +13,11 @@ on:
         type: string
       github-app:
         default: "${{ github.event.repository.name }}"
-        description: "First part of e2e env name."
+        description: "Prefix of e2e env name."
         type: string
       github-pr:
-        default: "test"
-        description: "Second part of e2e env name."
+        default: "${{ github.sha }}"
+        description: "Postfix of e2e env name. Used only 7 first symbol"
         type: string
     secrets:
       DEPLOY_HOST:
@@ -46,5 +46,5 @@ jobs:
           variables: >
             {
               "GITHUB_APP":"${{ inputs.github-app }}",
-              "GITHUB_PR":"${{ inputs.github-pr }}"
+              "GITHUB_PR":"${ INPUT_GITHUB-PR:0:7 }"
             }
