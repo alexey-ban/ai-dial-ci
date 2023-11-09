@@ -15,7 +15,7 @@ on:
         default: "${{ github.event.repository.name }}"
         description: "Prefix of e2e env name."
         type: string
-      githubpr:
+      github-pr:
         default: "${{ github.sha }}"
         description: "Postfix of e2e env name. Used only 7 first symbol"
         type: string
@@ -33,6 +33,8 @@ jobs:
     concurrency: e2e-test
     environment:
       name: e2e-test
+    env:
+      INPUT_GITHUB_PR: ${{ inputs.github-pr }}
     steps:
       - name: Deploy environment
         id: deploy
@@ -46,5 +48,5 @@ jobs:
           variables: >
             {
               "GITHUB_APP":"${{ inputs.github-app }}",
-              "GITHUB_PR":"${ INPUT_GITHUBPR }"
+              "GITHUB_PR":"${ INPUT_GITHUB_PR }"
             }
