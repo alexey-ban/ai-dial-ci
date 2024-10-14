@@ -50,7 +50,7 @@ on:
       gcp_repo:
         type: string
         description: "Google artifact repository name"
-        default: "us-central1-docker.pkg.dev/hl2-epm-dial-test-t1iylu/test-docker"
+        default: "test-docker"
 
 env:
   IMAGE_NAME: debug
