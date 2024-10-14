@@ -59,6 +59,9 @@ env:
 jobs:
   some_test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
       - name: some test
         shell: bash
@@ -66,6 +69,7 @@ jobs:
           echo "Test"
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@8254fb75a33b976a221574d287e93919e6a36f70 # v2.1.6
+
         with:
           project_id: ${{ inputs.gcp_project_id }}
           workload_identity_provider: ${{ inputs.gcp_workload_identity_provider }}
@@ -81,6 +85,9 @@ jobs:
 
   docker_build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
