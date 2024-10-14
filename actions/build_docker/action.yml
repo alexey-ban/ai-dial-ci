@@ -155,7 +155,7 @@ runs:
         CONTINUE_ON_ERROR: ${{ inputs.bypass_checks }} # Hack to use the input below as a boolean
       continue-on-error: ${{ fromJSON(env.CONTINUE_ON_ERROR) }}
     - name: Build and push
-      if: ${{ fromJSON(inputs.push) && fromJSON(inputs.push_private) }} # workaround for composite jobs not being able to pass boolean inputs
+      if: ${{ fromJSON(inputs.push_private) }} # workaround for composite jobs not being able to pass boolean inputs
       uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
       with:
         context: .
