@@ -64,6 +64,12 @@ jobs:
         shell: bash
         run: |
           echo "Test"
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@8254fb75a33b976a221574d287e93919e6a36f70 # v2.1.6
+        with:
+          project_id: ${{ inputs.gcp_project_id }}
+          workload_identity_provider: ${{ inputs.gcp_workload_identity_provider }}
+          service_account: ${{ inputs.gcp_service_account }}
   # test:
   #   uses: ./.github/workflows/generic_docker_test.yml
   #   with:
