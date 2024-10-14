@@ -33,7 +33,7 @@ on:
         description: Do not fail pipeline if Trivy failed
       gcp_project_id:
         type: string
-        default: "771246914069"  
+        default: "hl2-epm-dial-test-t1iylu"  
         description: "Google project ID"
       gcp_workload_identity_provider:
         type: string
@@ -50,7 +50,7 @@ on:
       gcp_repo:
         type: string
         description: "Google artifact repository name"
-        default: "e2e-repo"
+        default: "us-central1-docker.pkg.dev/hl2-epm-dial-test-t1iylu/test-docker"
 
 env:
   IMAGE_NAME: debug
