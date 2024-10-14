@@ -53,7 +53,7 @@ on:
         default: "e2e-repo"
 
 env:
-  IMAGE_NAME: ${{ github.repository.name }}
+  IMAGE_NAME: debug
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
