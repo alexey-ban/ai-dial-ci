@@ -1,4 +1,4 @@
-name: Generic Docker PR workflow
+name: Test
 
 on:
   workflow_call:
@@ -36,6 +36,13 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  some_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: some test
+        shell: bash
+        run: |
+          echo "Test"
   test:
     uses: ./.github/workflows/generic_docker_test.yml
     with:
