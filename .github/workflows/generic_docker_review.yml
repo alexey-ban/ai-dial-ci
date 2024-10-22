@@ -1,4 +1,4 @@
-name: Test
+name: Build Review Docker
 
 on:
   workflow_call:
@@ -51,6 +51,10 @@ on:
         type: string
         description: "Google artifact repository name"
         default: "test-docker"
+      environment_name:
+        type: string
+        description: "The name of the environment to manage"
+        required: true
 
 env:
   IMAGE_NAME: ${{ github.repository }}
@@ -58,16 +62,14 @@ env:
   PR_NAME: ${{ github.event.pull_request.number }}
 
 jobs:
-  some_test:
+  publish-docker:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment_name }}
+    concurrency: ${{ inputs.environment_name }}
     permissions:
       contents: 'read'
       id-token: 'write'
     steps:
-      - name: some test
-        shell: bash
-        run: |
-          echo "Test"
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@8254fb75a33b976a221574d287e93919e6a36f70 # v2.1.6
 
@@ -104,4 +106,4 @@ jobs:
           image_name: ${{ inputs.gcp_location }}-docker.pkg.dev/${{ inputs.gcp_project_id }}/${{ inputs.gcp_repo }}/${{ env.IMAGE_NAME }}
           image_tag: ${{ env.IMAGE_TAG }}
           image_extra_aliases: |
-            ${{ inputs.gcp_location }}-docker.pkg.dev/${{ inputs.gcp_project_id }}/${{ inputs.gcp_repo }}/${{ env.IMAGE_NAME }}:pr-${{ env.PR_NAME }}
+            ${{ inputs.gcp_location }}-docker.pkg.dev/${{ inputs.gcp_project_id }}/${{ inputs.gcp_repo }}/${{ env.IMAGE_NAME }}:${{ inputs.environment_name }}
