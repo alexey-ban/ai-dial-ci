@@ -64,8 +64,8 @@ env:
 jobs:
   publish-docker:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment_name }}
-    concurrency: ${{ inputs.environment_name }}
+    # environment: ${{ inputs.environment_name }}
+    # concurrency: ${{ inputs.environment_name }}
     permissions:
       contents: 'read'
       id-token: 'write'
