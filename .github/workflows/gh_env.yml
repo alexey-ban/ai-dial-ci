@@ -41,7 +41,6 @@ jobs:
 
       - name: Update environment settings
         id: setting
-        if: ${{ inputs.environment_create }}
         env:
           ADMIN_TOKEN: ${{ secrets.ACTIONS_BOT_TOKEN }}
         run: |
