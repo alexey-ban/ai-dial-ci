@@ -7,6 +7,10 @@ on:
         type: string
         description: "The name of the environment to manage"
         required: true
+      environment_create:
+        type: boolean
+        description: "Create new env or not"
+        default: false
       environment_url:
         type: string
         description: "The environment URL"
@@ -15,21 +19,33 @@ on:
         description: 'reviewer ID'
         required: false
         default: 20123880
+    outputs:
+      environment_url:
+        description: "The environment URL"
+        value: ${{ jobs.environment_settings.outputs.url }}
+      environment_name:
+        description: "The environment name"
+        value: ${{ jobs.environment_settings.outputs.name }}
 
 jobs:
-  create_environment:
+  environment_settings:
     runs-on: ubuntu-latest
-
+    outputs:
+      url: ${{ steps.setting.outputs.url }}
+      name: ${{ steps.setting.outputs.name }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           lfs: true
 
-      - name: Update environment reviewers and policies
+      - name: Update environment settings
+        id: setting
+        if: ${{ inputs.environment_create }}
         env:
           ADMIN_TOKEN: ${{ secrets.ACTIONS_BOT_TOKEN }}
         run: |
+          if [ "${{ inputs.environment_create }}" = "true" ]; then
           curl -L \
             -X PUT \
             -H "Accept: application/vnd.github+json" \
@@ -37,15 +53,19 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/environments/${{ inputs.environment_name }} \
             -d '{"wait_timer": 0,"prevent_self_review": false,"deployment_branch_policy": {"protected_branches": false,"custom_branch_policies": true},"reviewers": [{"type":"User","id":${{ inputs.reviewer_id }}}]}'
+          fi
+          echo "Configure env specific variable..." # ToDo add logic here
+          echo "url=${{ inputs.environment_url }}" >> $GITHUB_OUTPUT
+          echo "name=${{ inputs.environment_name }}" >> $GITHUB_OUTPUT
 
   check_permission:
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ inputs.environment_name }}
-      url: ${{ inputs.environment_url }}
-    concurrency: ${{ inputs.environment_name }}
+      name: ${{ needs.environment_settings.outputs.name }}
+      url: ${{ needs.environment_settings.outputs.url }}
+    concurrency: ${{ needs.environment_settings.outputs.name }}
     needs: 
-      - create_environment
+      - environment_settings
     steps:
       - name: Check permission
         run: |
