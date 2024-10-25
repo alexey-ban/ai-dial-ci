@@ -18,7 +18,7 @@ on:
         description: "Helm chart name"
       helm_chart_version:
         type: string
-        default: "3.2.0"
+        default: "3.3.0"
         description: "Helm chart version"
       helm_values_file:
         type: string
