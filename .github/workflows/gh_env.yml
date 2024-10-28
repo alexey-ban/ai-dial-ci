@@ -71,7 +71,7 @@ jobs:
 
           echo "repo_name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
           echo "base_url=${repo_name}-${environment_name}.${{ inputs.domain }}" >> $GITHUB_OUTPUT
-          echo "chat_url="chat-${base_url}" >> $GITHUB_OUTPUT
+          echo "chat_url=chat-${base_url}" >> $GITHUB_OUTPUT
 
           if [ "${{ inputs.environment_create }}" = "true" ]; then
           curl -L \
