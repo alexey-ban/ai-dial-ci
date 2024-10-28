@@ -67,6 +67,8 @@ jobs:
           fi
           echo "name=${environment_name}" >> $GITHUB_OUTPUT
 
+          echo "Environment Name: ${environment_name}"
+
           echo "repo_name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
           echo "base_url=${repo_name}-${environment_name}.${{ inputs.domain }}" >> $GITHUB_OUTPUT
           echo "chat_url="chat-${base_url}" >> $GITHUB_OUTPUT
