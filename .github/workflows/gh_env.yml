@@ -56,15 +56,6 @@ jobs:
           ADMIN_TOKEN: ${{ secrets.ACTIONS_BOT_TOKEN }}
           INPUT_ENV: ${{ inputs.environment_name }}
         run: |
-          if [ "${{ inputs.environment_create }}" = "true" ]; then
-          curl -L \
-            -X PUT \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${ADMIN_TOKEN}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.repository }}/environments/${{ inputs.environment_name }} \
-            -d '{"wait_timer": 0,"prevent_self_review": false,"deployment_branch_policy": {"protected_branches": false,"custom_branch_policies": true},"reviewers": [{"type":"User","id":${{ inputs.reviewer_id }}}]}'
-          fi
           echo "Configure env specific variable..." # ToDo add logic here
 
           if [ -n "$INPUT_ENV" ]; then
@@ -80,11 +71,21 @@ jobs:
           echo "base_url=${repo_name}-${environment_name}.${{ inputs.domain }}" >> $GITHUB_OUTPUT
           echo "chat_url="chat-${base_url}" >> $GITHUB_OUTPUT
 
+          if [ "${{ inputs.environment_create }}" = "true" ]; then
+          curl -L \
+            -X PUT \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${ADMIN_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository }}/environments/${environment_name} \
+            -d '{"wait_timer": 0,"prevent_self_review": false,"deployment_branch_policy": {"protected_branches": false,"custom_branch_policies": true},"reviewers": [{"type":"User","id":${{ inputs.reviewer_id }}}]}'
+          fi
+
   check_permission:
     runs-on: ubuntu-latest
     environment: 
       name: ${{ needs.environment_settings.outputs.name }}
-      url: ${{ needs.environment_settings.outputs.url }}
+      url: ${{ needs.environment_settings.outputs.chat_url }}
     concurrency: ${{ needs.environment_settings.outputs.name }}
     needs: 
       - environment_settings
