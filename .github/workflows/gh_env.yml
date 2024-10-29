@@ -65,16 +65,20 @@ jobs:
           else
             environment_name=${GITHUB_SHA:0:8}
           fi
-          echo "name=${environment_name}" >> $GITHUB_OUTPUT
-
-          echo "repo_name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
-          echo "base_url=${repo_name}-${environment_name}.${{ inputs.domain }}" >> $GITHUB_OUTPUT
-          echo "chat_url=chat-${base_url}" >> $GITHUB_OUTPUT
-
+          
+          repo_name=${GITHUB_REPOSITORY#*/}
+          base_url="${repo_name}-${environment_name}.${{ inputs.domain }}"
+          chat_url="chat-${base_url}"
+          
           echo "Environment Name: ${environment_name}"
           echo "Repo Name: ${repo_name}"
           echo "Base URL: ${base_url}"
           echo "AI DIAL Chat URL: ${chat_url}"
+          
+          echo "name=${environment_name}" >> $GITHUB_OUTPUT
+          echo "repo_name=${repo_name}" >> $GITHUB_OUTPUT
+          echo "base_url=${base_url}" >> $GITHUB_OUTPUT
+          echo "chat_url=${chat_url}" >> $GITHUB_OUTPUT
 
           if [ "${{ inputs.environment_create }}" = "true" ]; then
           curl -L \
