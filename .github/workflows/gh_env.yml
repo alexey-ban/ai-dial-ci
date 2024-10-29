@@ -25,7 +25,7 @@ on:
     outputs:
       base_url:
         description: "The environment URL"
-        value: ${{ jobs.environment_settings.outputs.chat_url }}
+        value: ${{ jobs.environment_settings.outputs.base_url }}
       chat_url:
         description: "The environment URL"
         value: ${{ jobs.environment_settings.outputs.chat_url }}
@@ -67,11 +67,14 @@ jobs:
           fi
           echo "name=${environment_name}" >> $GITHUB_OUTPUT
 
-          echo "Environment Name: ${environment_name}"
-
           echo "repo_name=${GITHUB_REPOSITORY#*/}" >> $GITHUB_OUTPUT
           echo "base_url=${repo_name}-${environment_name}.${{ inputs.domain }}" >> $GITHUB_OUTPUT
           echo "chat_url=chat-${base_url}" >> $GITHUB_OUTPUT
+
+          echo "Environment Name: ${environment_name}"
+          echo "Repo Name: ${repo_name}"
+          echo "Base URL: ${base_url}"
+          echo "AI DIAL Chat URL: ${chat_url}"
 
           if [ "${{ inputs.environment_create }}" = "true" ]; then
           curl -L \
