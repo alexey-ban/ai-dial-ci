@@ -4,7 +4,8 @@ on:
   workflow_call:
     secrets:
       ACTIONS_BOT_TOKEN:
-        required: true      
+        description: "A token passed from the caller workflow"
+        required: false      
     inputs:
       environment_name:
         type: string
@@ -59,7 +60,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_BOT_TOKEN }}
           INPUT_ENV: ${{ inputs.environment_name }}
         run: |
-          echo "Configure env specific variable..." # ToDo add logic here
+          echo "Configure env specific variable..."
 
           if [ -n "$INPUT_ENV" ]; then
             environment_name=$INPUT_ENV
