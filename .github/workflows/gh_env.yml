@@ -63,7 +63,7 @@ jobs:
 
           if [ -n "$INPUT_ENV" ]; then
             environment_name=$INPUT_ENV
-          elif [ "${{ github.event_name }}" == "pull_request" ]; then
+          elif [ "${{ github.event_name }}" == "pull_request_target" ]; then
             environment_name="pr-${{ github.event.number }}"
           else
             environment_name=${GITHUB_SHA:0:8}
@@ -71,7 +71,7 @@ jobs:
           
           repo_name=${GITHUB_REPOSITORY#*/}
           base_url="${repo_name}-${environment_name}.${{ inputs.domain }}"
-          chat_url="chat-${base_url}"
+          chat_url="https://chat-${base_url}"
           
           echo "Environment Name: ${environment_name}"
           echo "Repo Name: ${repo_name}"
